@@ -1,0 +1,95 @@
+import random
+
+class Card:
+    def __init__(self, suit, value):
+        self.suit = suit
+        self.value = value
+
+    def show(self):
+        print(str(self.value) + " Of " +self.suit)
+
+class Deck:
+    def __init__(self):
+        self.deck = []
+        self.create()
+        self.shuffle()
+
+    def create(self):
+        for suit in("Spades", "Clubs", "Diamonds", "Hearts"):
+            for value in range(1,14):
+                self.deck.append(Card(suit,value))
+
+    def shuffle(self):
+        return random.shuffle(self.deck)
+
+    def deal(self):
+        try:
+            return self.deck.pop()
+        except IndexError:
+            print("The deck is now dealt, try to win!")
+
+    def show(self):
+        for c in self.deck:
+            c.show()
+
+class Player:
+    def __init__(self, name):
+        self.name = name
+        self.hand = []
+
+    def show(self):
+        for c in self.hand:
+            c.show()
+
+while True:
+
+    deck = Deck()
+
+    player_names = []
+
+    for p in range(0, 2):
+        player_names.append(input('Please enter your name!'))
+
+    players = [Player(name) for name in player_names]
+
+    for p in players:
+        for i in range(0, 26):
+            p.hand.append(deck.deal())
+
+    player1 = players[0]
+    player2 = players[1]
+    #player1.show()
+    #player2.show()
+
+    while player1.hand and player2.hand:
+        player1_card = player1.hand.pop(0)
+        player2_card = player2.hand.pop(0)
+
+        print(len(player1.hand))
+        print(len(player2.hand))
+
+        if player1_card.value > player2_card.value:
+            player1.hand.append(player1_card)
+            player1.hand.append(player2_card)
+        elif player2_card.value > player1_card.value:
+            player2.hand.append(player1_card)
+            player2.hand.append(player2_card)
+        else:
+            player1.hand.append(player1_card)
+            player2.hand.append(player2_card)
+
+    #player1.show()
+    #player2.show()
+
+    print("The game is over!")
+    break
+
+    #deck = Deck()
+   # for p in players:
+
+
+   #     deck.deal()
+
+    #for p in players:
+    #    print(p)
+    #break
